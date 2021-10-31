@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const dbConfig = require("./app/config/db.config");
-
+const swagger = require("swagger-node-express");
 const app = express();
+const db = require("./app/models");
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -15,9 +16,7 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
-const db = require("./app/models");
-const Role = db.role;
+swagger.setAppHandler(app);
 
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
